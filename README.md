@@ -1,4 +1,4 @@
-# DAND
+# Data Analyst Nanodegree
 Projects done for Udacity's data analyst nanodegree
 
 1. Pandas & Seaborn: [*Sifting Lahman’s Baseball Database*](https://kiquin.github.io/DAND/01/Baseball.html)
