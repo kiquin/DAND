@@ -1,0 +1,161 @@
+---
+title: "Stroop Effect"
+author: "Enrique Araujo"
+date: "July 2018"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library(ggplot2)
+library(tidyr)
+```
+
+### The Stroop test
+
+In the Stroop test, participants are given a list of words, where each is filled
+with a color. The task is to say out loud the color of the word. This task in 
+done in two conditions: congruent or incongruent. In the first one, the words 
+are colors, and are printed in the matching color. In the second one, the word
+says one color, but it's printed in another. In both cases, we measure the time 
+it takes to name all the colors. Each participant records a time for each 
+condition. In this exercise, the type of test is the independent variable, 
+congruent or incongruent. The dependent variable is the time it takes to 
+name all the colors.
+
+### The experimental data and hypothesis
+
+```{r}
+mydata = read.csv("stroopdata.csv")
+structure(mydata)
+```
+
+The data I'm using for this analysis contains results for 24 participants
+over the two tasks, with the times measured in seconds. As each participant does
+each task, I have *paired samples* and I'll be looking at the *pairwise 
+difference* in order to draw conclusions.
+
+Let $\mu_{C}$ be the population mean for the congruent test, and $\mu_{I}$ for
+the incongruent. Their difference $\mu_{d} = \mu_{C} - \mu_{I}$ is the difference
+between the population means.
+
+Therefore, the null hypothesis $H_0$ is that the test subjects score the same
+time on both tests, which means that the difference between the average
+completion times for each condition $\mu_{d}$ is zero:
+
+$$H_0: \mu_{d} = 0$$
+
+Thus, the alternate hypothesis $H_1$ is that the type of test does affect the
+outcome and the times will be different, such that the difference between the
+means is not zero. The times can be better, or worse:
+
+$$H_1: \mu_{d} \neq 0$$
+
+### Establishing the test
+
+The nature of the experiment and data recollection means that the most suitable
+test is a **paired samples t-test**:
+
+* Participants go through each test in the same order: first congruent, then 
+incongruent. Times are recorded and are dependent. 
+* We have 24 samples (low amount) for a population for which we don't know
+parameters like the mean or standard deviation, and thus we will have to 
+approximate them.
+* We assume that the populations are normally distributed.
+* Paired test means the variance of the two populations can be different and 
+won't introduce errors in the test.
+
+The test will be *two-sided*, as it's possible that a participant
+scores a lower time in the second test. The paired t-test will help determine if
+the conditions have a positive or negative effect on performance.
+
+### Descriptive statistics
+
+Before executing the test, however, first I'll take a look at some statistics 
+of our data. I'll draw a summary, which includes the quantiles, median and mean,
+and then calculate the standard deviation. First, the congruent task:
+
+```{r}
+summary(mydata$Congruent)
+sd (mydata$Congruent)
+```
+
+In this first task, the average completion time is 14.05 seconds, with a SD of
+3.559 seconds. The fastest participant completed the test more that twice as 
+fast as the slowest one (8.63s vs 22.33s).
+
+Now, I'll compute the same statistics for the incongruent task:
+
+```{r}
+summary(mydata$Incongruent)
+sd(mydata$Incongruent)
+```
+
+In the second task, the average time to complete is 21.02 seconds, with a SD of
+4.797 seconds. The fastest participant did it in 15.69s, with the slowest taking
+a total of 35.26s.
+
+### Distribution of sample data
+
+```{r echo=FALSE}
+plotdata = gather(mydata, key = "condition", value = "time")
+
+ggplot(plotdata, aes(x = condition, y = time)) +
+  geom_boxplot() +
+  labs(title = "Box plot of times for the two tests (24 samples)",
+       y = "time in seconds")
+```
+
+This is a boxplot split by the testing condition. Here it's possible
+to see the clear difference in the completion time for each. Data is also quite
+normally distributed, and the variance is also similar for both cases. However,
+there are some possible outliers in the data for the incongruent task. 
+
+### Executing the t-test
+
+Finally, I calculate the t-test using R's *t.test* function. As mention before,
+it's a two-sided paired test. I chose a 99% confidence interval based on the
+statistics I calculated before:
+
+```{r}
+t.test(mydata$Congruent, mydata$Incongruent,
+       alternative = "two.sided",
+       paired=TRUE,
+       conf.level = 0.99)
+```
+
+The results are clear. With a t-score of -8.0207 and a minuscule p-value, we 
+reject the null hypothesis. The differing test conditions had a definite effect
+on the participants performance. Subjects did noticeably worse with the 
+incongruent colors, taking more time to name them, compared to the congruent
+task.
+
+### Closing remarks
+
+The results observed show that people have more trouble naming colors when they
+read a word with a different color in it. This phenomenon is known as 
+interference and happens because the brain is used to reading words, like it's
+automatic. So, when it's presented with a task that demands more effort, like
+naming the color, it still does the reading and slows down our responses 
+(Farnsworth, 2017).
+
+Were the words in an unknown language, it's possible the participants wouldn't
+be negatively affected. However, it might be interesting to perform the test on
+bilingual candidates.
+
+As this test can rate an individual's cognitive performance by using interference,
+I can think of some other experiments that involve two distinct activities. For
+example, a person can be told to catch colored balls and say the color out loud 
+while doing it. In this case, the naming could be a distraction and might make 
+the person drop some balls, or maybe the opposite can happen, and they focus on
+the catching and stop naming. I think that any situation that pits an ordinary,
+almost automatic task, with one that is a bit more demanding, can produce effects
+like Stroop's.
+
+
+
+#### References
+
+Farnsworth, B., Ph.D. (2017, August 23). The Stroop Effect - How it Works
+and Why. Retrieved from https://imotions.com/blog/the-stroop-effect/ 
+

@@ -1,0 +1,4 @@
+Resources I used for this project:
+*'The SQL LIKE operator' [https://www.w3schools.com/sql/sql_like.asp] for info on how to use LIKE.
+*'Bogota y el nombre de sus calles' [https://www.idu.gov.co/page/bogota-y-los-nombres-de-sus-calles] for building the mapping correctly.
+*'RegExr' [https://regexr.com/] for building a regular expression for replacing words.
