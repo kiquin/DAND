@@ -1,5 +1,5 @@
 # Data Analyst Nanodegree
-Projects done for Udacity's data analyst nanodegree
+This is a compilation of all the projects I worked on during my Data Analyst Nanodegree in Udacity. The following links lead to each project's report.
 
 1. Pandas & Seaborn: [*Sifting Lahman’s Baseball Database*](https://kiquin.github.io/DAND/01/Baseball.html)
 2. ElementTree & SQLite: [*Wrangle OpenStreetMap Data*](https://github.com/kiquin/DAND/blob/master/02/report.md)
