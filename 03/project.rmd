@@ -23,7 +23,7 @@ library(gridExtra)
 
 ```{r echo=FALSE, Load_the_Data}
 # Load the Data
-mydata = read.csv("wineQualityReds.csv")
+mydata <- read.csv("/wineQualityReds.csv")
 ```
 
 
@@ -40,7 +40,7 @@ str(mydata)
 ```
 
 ```{r echo=FALSE}
-ggplot(aes(x=quality, fill=quality), data=mydata) +
+ggplot(aes(x = quality, fill = quality), data = mydata) +
   geom_bar() +
   labs(title = "Distribution of wine quality")
 summary(mydata$quality)
@@ -51,17 +51,17 @@ pack when it comes to quality, rating 5-6. The minimum rating is a 3, while the
 maximum is 8. There are more high-rated wines than low-rated ones.
 
 ```{r echo=FALSE}
-ggplot(aes(x=fixed.acidity), data=mydata) +
+ggplot(aes(x = fixed.acidity), data = mydata) +
   geom_histogram(bins = 50) +
   labs(title = "Distribution of fixed acidity")
 summary(mydata$fixed.acidity)
 
-ggplot(aes(x=volatile.acidity), data=mydata) +
+ggplot(aes(x = volatile.acidity), data = mydata) +
   geom_histogram(bins = 50) +
   labs(title = "Distribution of volatile acidity")
 summary(mydata$volatile.acidity)
 
-ggplot(aes(x=citric.acid), data=mydata) +
+ggplot(aes(x = citric.acid), data = mydata) +
   geom_histogram(bins = 50) +
   labs(title = "Distribution of citric acid")
 summary(mydata$citric.acid)
@@ -73,25 +73,25 @@ correlated to each other?  On the other hand, the citric acid one is a bit more
 unique, with distinct peaks at 0 and 0.50.
 
 ```{r echo=FALSE}
-P1 <- ggplot(aes(x=residual.sugar), data=mydata) +
-      geom_histogram(bins = 50) +
+P1 <- ggplot(aes(x = residual.sugar), data = mydata) +
+  geom_histogram(bins = 50) +
   labs(title = "Distribution of residual sugar")
 
-P2 <- ggplot(aes(x=residual.sugar), data=mydata) +
-      geom_histogram(bins = 50) +
-      scale_x_log10(breaks = seq(0,16,2)) +
+P2 <- ggplot(aes(x = residual.sugar), data = mydata) +
+  geom_histogram(bins = 50) +
+  scale_x_log10(breaks = seq(0, 16, 2)) +
   labs(title = "Distribution of log10(residual sugar)")
 
 grid.arrange(P1, P2, ncol = 1)
 summary(mydata$residual.sugar)
 
-P1 <- ggplot(aes(x=chlorides), data=mydata) +
-      geom_histogram(bins = 50) +
+P1 <- ggplot(aes(x = chlorides), data = mydata) +
+  geom_histogram(bins = 50) +
   labs(title = "Distribution of chlorides")
 
-P2 <- ggplot(aes(x=chlorides), data=mydata) +
-      geom_histogram(bins = 50) +
-      scale_x_log10(breaks = seq(0,1,0.1)) +
+P2 <- ggplot(aes(x = chlorides), data = mydata) +
+  geom_histogram(bins = 50) +
+  scale_x_log10(breaks = seq(0, 1, 0.1)) +
   labs(title = "Distribution of log10(chlorides)")
 
 grid.arrange(P1, P2, ncol = 1)
@@ -109,8 +109,9 @@ curious about the quality of the wines to which these belong to, especially the
 sweeter wines, so I'll subset them:
 
 ```{r echo=FALSE}
-ggplot(aes(x=quality), data=subset(mydata, residual.sugar > 10)) +
-  geom_bar() + labs(title = "Distribution of quality of sweet wines")
+ggplot(aes(x = quality), data = subset(mydata, residual.sugar > 10)) +
+  geom_bar() +
+  labs(title = "Distribution of quality of sweet wines")
 ```
 
 I plotted the quality of wines that have more than 10 grams per liter of sugar.
@@ -118,33 +119,33 @@ Not only do we have few fines that satisfy this condition, but their quality
 doesn't go beyond a 6.
 
 ```{r echo=FALSE}
-P1 <- ggplot(aes(x=free.sulfur.dioxide), data=mydata) +
+P1 <- ggplot(aes(x = free.sulfur.dioxide), data = mydata) +
   geom_histogram(binwidth = 2) +
   labs(title = "Distribution of free SO2")
 
-P2 <- ggplot(aes(x=free.sulfur.dioxide), data=mydata) +
+P2 <- ggplot(aes(x = free.sulfur.dioxide), data = mydata) +
   geom_histogram(bins = 50) +
-  scale_x_log10(breaks = c(2,4,6,8,10,15,20, 40, 60)) +
+  scale_x_log10(breaks = c(2, 4, 6, 8, 10, 15, 20, 40, 60)) +
   labs(title = "Distribution of log10(free SO2)")
 
-grid.arrange(P1,P2,ncol = 1)
+grid.arrange(P1, P2, ncol = 1)
 summary(mydata$free.sulfur.dioxide)
 
-P1 <- ggplot(aes(x=total.sulfur.dioxide), data=mydata) +
+P1 <- ggplot(aes(x = total.sulfur.dioxide), data = mydata) +
   geom_histogram(binwidth = 5) +
   labs(title = "Distribution of total SO2")
 
-P2 <- ggplot(aes(x=total.sulfur.dioxide), data=mydata) +
+P2 <- ggplot(aes(x = total.sulfur.dioxide), data = mydata) +
   geom_histogram(bins = 50) +
-  scale_x_log10(breaks = c(10,20,30,40,50,100,200)) +
+  scale_x_log10(breaks = c(10, 20, 30, 40, 50, 100, 200)) +
   labs(title = "Distribution of log10(total SO2)")
 
-grid.arrange(P1,P2,ncol = 1)
+grid.arrange(P1, P2, ncol = 1)
 summary(mydata$total.sulfur.dioxide)
 
-ggplot(aes(x=sulphates), data=mydata) +
+ggplot(aes(x = sulphates), data = mydata) +
   geom_histogram(bins = 75) +
-  coord_cartesian(xlim = c(0,quantile(mydata$sulphates,0.99))) +
+  coord_cartesian(xlim = c(0, quantile(mydata$sulphates, 0.99))) +
   labs(title = "Distribution of sulphates")
 
 summary(mydata$sulphates)
@@ -172,8 +173,9 @@ becomes evident in the nose and taste of wine. So I look at the quality of the
 13 wines that go over this concentration.
 
 ```{r echo=FALSE}
-ggplot(aes(x=quality), data=subset(mydata, free.sulfur.dioxide > 50)) +
-  geom_bar() + labs(title = "Quality of wines with high free SO2")
+ggplot(aes(x = quality), data = subset(mydata, free.sulfur.dioxide > 50)) +
+  geom_bar() +
+  labs(title = "Quality of wines with high free SO2")
 ```
 
 Since there are few wines with high concentrations of free SO2 it's difficult
@@ -183,17 +185,17 @@ it appears that it doesn't have much of a negative impact, we even find that
 there are two wines with a score of 7.
 
 ```{r echo=FALSE}
-ggplot(aes(x=density), data=mydata) +
+ggplot(aes(x = density), data = mydata) +
   geom_histogram(bins = 75) +
   labs(title = "Distribution of wine density")
 summary(mydata$density)
 
-ggplot(aes(x=pH), data=mydata) +
+ggplot(aes(x = pH), data = mydata) +
   geom_histogram(bins = 60) +
   labs(title = "Distribution of pH")
 summary(mydata$pH)
 
-ggplot(aes(x=alcohol), data=mydata) +
+ggplot(aes(x = alcohol), data = mydata) +
   geom_histogram(bins = 60) +
   labs(title = "Distribution of alcohol")
 summary(mydata$alcohol)
@@ -281,12 +283,14 @@ Since I'm looking at quality as the main output feature, I'll look into the
 variables with the most correlation next, beginning with the positive.
 
 ```{r echo=FALSE}
-pairs.panels(subset(mydata, select = c(quality, alcohol,
-                                       sulphates, citric.acid)), 
-              method = "pearson", 
-              hist.col = "#00AFBB",
-              density = TRUE,  
-              ellipses = TRUE
+pairs.panels(subset(mydata, select = c(
+  quality, alcohol,
+  sulphates, citric.acid
+)),
+method = "pearson",
+hist.col = "#00AFBB",
+density = TRUE,
+ellipses = TRUE
 )
 ```
 
@@ -295,12 +299,14 @@ Still, it's a moderate correlation at best. Now, for the negatively correlated
 ones.
 
 ```{r echo=FALSE}
-pairs.panels(subset(mydata, select = c(quality, volatile.acidity,
-                                       density, total.sulfur.dioxide)), 
-              method = "pearson", 
-              hist.col = "#00AFBB",
-              density = TRUE,  
-              ellipses = TRUE 
+pairs.panels(subset(mydata, select = c(
+  quality, volatile.acidity,
+  density, total.sulfur.dioxide
+)),
+method = "pearson",
+hist.col = "#00AFBB",
+density = TRUE,
+ellipses = TRUE
 )
 ```
 
@@ -321,10 +327,10 @@ wine to see how they vary.
 
 ```{r echo=FALSE}
 ggplot(data = mydata, aes(factor(quality), volatile.acidity)) +
-  geom_boxplot() + 
+  geom_boxplot() +
   labs(tile = "Volatile acidity vs quality boxplot")
 
-#by(mydata$volatile.acidity, mydata$quality, summary)
+# by(mydata$volatile.acidity, mydata$quality, summary)
 ```
 
 This box-plot showcases how different are the higher rated wines from the poor
@@ -335,10 +341,10 @@ poorly rated wines have unpleasant taste.
 
 ```{r echo=FALSE}
 ggplot(data = mydata, aes(factor(quality), citric.acid)) +
-  geom_boxplot()  +
+  geom_boxplot() +
   labs(tile = "Citric acid vs quality boxplot")
 
-#by(mydata$citric.acid, mydata$quality, summary)
+# by(mydata$citric.acid, mydata$quality, summary)
 ```
 
 Next up is the concentration of citric acid. In this one the most noticeable 
@@ -352,7 +358,7 @@ ggplot(data = mydata, aes(factor(quality), alcohol)) +
   geom_boxplot() +
   labs(tile = "Alcohol vs quality boxplot")
 
-#by(mydata$alcohol, mydata$quality, summary)
+# by(mydata$alcohol, mydata$quality, summary)
 ```
 
 Now this one is a relationship I didn't not expect, yet the data shows that it's
@@ -363,10 +369,10 @@ a better wine, but the worse wines have little of it.
 ```{r echo=FALSE}
 ggplot(data = mydata, aes(factor(quality), sulphates)) +
   geom_boxplot() +
-  coord_cartesian(ylim = c(0.25,1.25)) +
+  coord_cartesian(ylim = c(0.25, 1.25)) +
   labs(tile = "Sulphates vs quality boxplot")
 
-#by(mydata$sulphates, mydata$quality, summary)
+# by(mydata$sulphates, mydata$quality, summary)
 ```
 
 Finally, the concentration of sulphates. High-rated wines tend to have more 
@@ -380,10 +386,10 @@ explanations, but nonetheless it'll be interesting to take a look at them
 in plots.
 
 ```{r echo=FALSE}
-ggplot(aes(x=fixed.acidity, y=pH, alpha = 1/100), data = mydata) +
+ggplot(aes(x = fixed.acidity, y = pH, alpha = 1 / 100), data = mydata) +
   geom_point() +
-  geom_smooth(method = "lm") + 
-  theme(legend.position="none") +
+  geom_smooth(method = "lm") +
+  theme(legend.position = "none") +
   labs(tile = "pH vs fixed acidity")
 ```
 
@@ -393,10 +399,10 @@ variables, like citric acid concentration and alcohol percentage. This shows in
 the variability of the points in this plot.
 
 ```{r echo=FALSE}
-ggplot(aes(x=alcohol, y=density, alpha = 1/100), data = mydata) +
+ggplot(aes(x = alcohol, y = density, alpha = 1 / 100), data = mydata) +
   geom_point() +
-  geom_smooth(method = "lm") + 
-  theme(legend.position="none") +
+  geom_smooth(method = "lm") +
+  theme(legend.position = "none") +
   labs(tile = "density vs alcohol")
 ```
 
@@ -437,32 +443,44 @@ explains at least 68% of the variation in pH across our wine data.
 
 ```{r echo=FALSE, Multivariate_Plots}
 ggplot(mydata, aes(sulphates,
-                   color=factor(quality),
-                   fill = factor(quality))) +
+  color = factor(quality),
+  fill = factor(quality)
+)) +
   geom_density(alpha = 0.4) +
-  coord_cartesian(xlim = c(0.3,1.3)) +
-  scale_fill_brewer() + scale_color_brewer() + theme_dark() +
+  coord_cartesian(xlim = c(0.3, 1.3)) +
+  scale_fill_brewer() +
+  scale_color_brewer() +
+  theme_dark() +
   labs(title = "Sulphate density")
 
 ggplot(mydata, aes(alcohol,
-                   color=factor(quality),
-                   fill = factor(quality))) +
+  color = factor(quality),
+  fill = factor(quality)
+)) +
   geom_density(alpha = 0.4) +
-  scale_fill_brewer() + scale_color_brewer() + theme_dark() +
+  scale_fill_brewer() +
+  scale_color_brewer() +
+  theme_dark() +
   labs(title = "Alcohol density")
 
 ggplot(mydata, aes(citric.acid,
-                   color=factor(quality),
-                   fill = factor(quality))) +
+  color = factor(quality),
+  fill = factor(quality)
+)) +
   geom_density(alpha = 0.4) +
-  scale_fill_brewer() + scale_color_brewer() + theme_dark() +
+  scale_fill_brewer() +
+  scale_color_brewer() +
+  theme_dark() +
   labs(title = "Citric acid density")
 
 ggplot(mydata, aes(volatile.acidity,
-                   color=factor(quality),
-                   fill = factor(quality))) +
+  color = factor(quality),
+  fill = factor(quality)
+)) +
   geom_density(alpha = 0.4) +
-  scale_fill_brewer() + scale_color_brewer() + theme_dark() +
+  scale_fill_brewer() +
+  scale_color_brewer() +
+  theme_dark() +
   labs(title = "Volatile acidity density")
 ```
 
@@ -483,10 +501,11 @@ quality wines that have few sulphates or citric acid, or somewhat elevated
 volatile acidity.
 
 ```{r echo=FALSE}
-ggplot(aes(sulphates, volatile.acidity, color=factor(quality)), data=mydata) +
+ggplot(aes(sulphates, volatile.acidity, color = factor(quality)), data = mydata) +
   geom_point() +
-  coord_trans(x = 'log', y = 'log') +
-  scale_color_brewer() + theme_dark() +
+  coord_trans(x = "log", y = "log") +
+  scale_color_brewer() +
+  theme_dark() +
   labs(title = "Volatile acidity vs sulphates")
 ```
 
@@ -497,11 +516,12 @@ points are very scattered but there is a noticeable pattern in there. Since the
 higher values are outliers, I use a log transform in the x-axis.
 
 ```{r echo=FALSE}
-ggplot(aes(sulphates, volatile.acidity, color=factor(quality)), data=mydata) +
+ggplot(aes(sulphates, volatile.acidity, color = factor(quality)), data = mydata) +
   geom_point() +
-  coord_trans(x = 'log', y = 'log') +
-  scale_color_brewer() + theme_dark() +
-  facet_wrap(~factor(quality)) +
+  coord_trans(x = "log", y = "log") +
+  scale_color_brewer() +
+  theme_dark() +
+  facet_wrap(~ factor(quality)) +
   labs(title = "Volatile acidity vs sulphates (Faceted)")
 ```
 
@@ -512,10 +532,11 @@ This time I use a log transform for the sulphates, and a square root transform
 for the citric acid, which has 0 values.
 
 ```{r echo=FALSE}
-ggplot(aes(sulphates, citric.acid, color=factor(quality)), data=mydata) +
+ggplot(aes(sulphates, citric.acid, color = factor(quality)), data = mydata) +
   geom_point() +
-  coord_trans(x = 'log', y = 'sqrt') +
-  scale_color_brewer(palette = "Purples") + theme_dark() +
+  coord_trans(x = "log", y = "sqrt") +
+  scale_color_brewer(palette = "Purples") +
+  theme_dark() +
   labs(title = "Citric acid vs sulphates")
 ```
 
@@ -525,10 +546,11 @@ better wine. However, we see a lot of variation in here as fell. Once again, I
 use a log transform for the x-axis and square root for y-axis.
 
 ```{r echo=FALSE}
-CV <- ggplot(aes(volatile.acidity, citric.acid, color=factor(quality)), data=mydata) +
+CV <- ggplot(aes(volatile.acidity, citric.acid, color = factor(quality)), data = mydata) +
   geom_point() +
-  coord_trans(x = 'log', y = 'sqrt')  +
-  scale_color_brewer(palette = "Oranges") + theme_dark() +
+  coord_trans(x = "log", y = "sqrt") +
+  scale_color_brewer(palette = "Oranges") +
+  theme_dark() +
   labs(title = "Citric acid vs volatile acidity")
 
 CV
@@ -538,7 +560,7 @@ Finally, I compare two acids, citric vs acetic. One is related with fresh taste,
 the other with a bad, vinegar-like one. Once again, there is a lot of variance.
 
 ```{r message=FALSE, warning=FALSE}
-CV + facet_wrap(~cut(sulphates, c(0,0.5,0.6,0.7,0.8,0.9,2))) +
+CV + facet_wrap(~ cut(sulphates, c(0, 0.5, 0.6, 0.7, 0.8, 0.9, 2))) +
   scale_color_brewer(palette = "Reds") +
   labs(title = "Citric acid vs volatile acidity (faceted)")
 ```
@@ -587,12 +609,16 @@ on the same level as a good one.
 ### Plot One
 ```{r echo=FALSE, Plot_One}
 ggplot(mydata, aes(citric.acid,
-                   color=factor(quality),
-                   fill = factor(quality))) +
-  scale_fill_brewer(palette = 'Oranges') +
-  scale_color_brewer(palette = 'Reds') +
-  theme_dark() + labs(x = "citric acid (g / dm^3)",
-                      title = "Citric Acid") + 
+  color = factor(quality),
+  fill = factor(quality)
+)) +
+  scale_fill_brewer(palette = "Oranges") +
+  scale_color_brewer(palette = "Reds") +
+  theme_dark() +
+  labs(
+    x = "citric acid (g / dm^3)",
+    title = "Citric Acid"
+  ) +
   geom_density(alpha = 0.4)
 ```
 
@@ -609,10 +635,13 @@ samples with concentrations around 0.5g/L.
 ```{r echo=FALSE, Plot_Two}
 ggplot(data = mydata, aes(factor(quality), y = volatile.acidity)) +
   geom_violin() +
-  theme_dark() + labs(x = "Wine Quality",
-                      y = "Acetic acid - g / dm^3",
-                      title = "Volatile Acidity") + 
-  theme(legend.position="none")
+  theme_dark() +
+  labs(
+    x = "Wine Quality",
+    y = "Acetic acid - g / dm^3",
+    title = "Volatile Acidity"
+  ) +
+  theme(legend.position = "none")
 ```
 
 ### Description Two
@@ -627,15 +656,18 @@ how good a wine is.
 
 ### Plot Three
 ```{r echo=FALSE, Plot_Three}
-ggplot(aes(sulphates, volatile.acidity, color=factor(quality)), data=mydata) +
+ggplot(aes(sulphates, volatile.acidity, color = factor(quality)), data = mydata) +
   geom_point(alpha = 0.3) +
-  coord_trans(x = 'log', y = 'log') +
-  scale_color_brewer(palette = 'Reds') + theme_dark() +
-  labs(x = "potassium sulphate - g / dm^3",
-       y = "Acetic acid - g / dm^3",
-       title = "Volatile Acidity vs. Sulphates by quality") + 
-  facet_wrap(~factor(quality)) + 
-  theme(legend.position="none")
+  coord_trans(x = "log", y = "log") +
+  scale_color_brewer(palette = "Reds") +
+  theme_dark() +
+  labs(
+    x = "potassium sulphate - g / dm^3",
+    y = "Acetic acid - g / dm^3",
+    title = "Volatile Acidity vs. Sulphates by quality"
+  ) +
+  facet_wrap(~ factor(quality)) +
+  theme(legend.position = "none")
 ```
 
 ### Description Three
